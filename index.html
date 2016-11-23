@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>Tasklist</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+    <div id="app">
+	    <tasks v-bind:list="tasks"></tasks>
+    </div>
+
+    <template id="tasks-template">
+	    <div class="container-fluid">
+	    	<div class="card">
+	    		<div class="card-header">
+	    			<h1><i class="fa fa-list"></i> Tasklist</h1>
+    			</div>
+				<div class="card-block">
+					<input v-model="newTaskText" v-on:keyup.enter="addNewTask" placeholder="Add a task">
+				</div>
+				<ul class="list-group" v-if="list.length">
+					<li class="list-group-item" v-bind:class="{ 'text-muted': task.completed }" v-for="task in list">
+						<input type="checkbox" v-model="task.completed" v-on:click="task.completed = ! task.completed">
+						{{ task.body }}
+						<span class="tag tag-warning tag-pill float-xs-right" v-on:click="deleteTask(task)"><i class="fa fa-trash"></i></span>
+					</li>
+				</ul>
+				<div class="card-block" v-else>
+					<p class="card-text">No tasks yet</p>
+				</div>
+				<div class="card-footer text-muted">
+					{{ remaining }} task{{ remaining == 1 ? '' : 's' }} left to do
+				</div>
+			</div>
+		</div>
+    </template>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="main.js"></script>
+
+</body>
+</html>
